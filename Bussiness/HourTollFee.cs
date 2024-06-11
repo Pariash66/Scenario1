@@ -16,16 +16,20 @@ namespace congestion.calculator.Bussiness
         }
         public int CalculateFee()
         {
-            if (_hour == 6 && _minute >= 0 && _minute <= 29) return 8;
-            else if (_hour == 6 && _minute >= 30 && _minute <= 59) return 13;
-            else if (_hour == 7 && _minute >= 0 && _minute <= 59) return 18;
-            else if (_hour == 8 && _minute >= 0 && _minute <= 29) return 13;
-            else if (_hour >= 8 && _hour <= 14 && _minute >= 30 && _minute <= 59) return 8;
-            else if (_hour == 15 && _minute >= 0 && _minute <= 29) return 13;
-            else if (_hour == 15 && _minute >= 0 || _hour == 16 && _minute <= 59) return 18;
-            else if (_hour == 17 && _minute >= 0 && _minute <= 59) return 13;
-            else if (_hour == 18 && _minute >= 0 && _minute <= 29) return 8;
-            else return 0;
+            try
+            {
+                if (_hour == 6 && _minute >= 0 && _minute <= 29) return 8;
+                else if (_hour == 6 && _minute >= 30 && _minute <= 59) return 13;
+                else if (_hour == 7 && _minute >= 0 && _minute <= 59) return 18;
+                else if (_hour == 8 && _minute >= 0 && _minute <= 29) return 13;
+                else if (_hour >= 8 && _hour <= 14 && _minute >= 30 && _minute <= 59) return 8;
+                else if (_hour == 15 && _minute >= 0 && _minute <= 29) return 13;
+                else if (_hour == 15 && _minute >= 0 || _hour == 16 && _minute <= 59) return 18;
+                else if (_hour == 17 && _minute >= 0 && _minute <= 59) return 13;
+                else if (_hour == 18 && _minute >= 0 && _minute <= 29) return 8;
+                else return 0;
+            }
+            catch (Exception ex) { throw; }
         }
     }
 }

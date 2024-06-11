@@ -1,6 +1,5 @@
-﻿
-using congestion.calculator;
-using congestion.calculator.Bussiness;
+﻿using congestion.calculator.Bussiness;
+using congestion.calculator.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,12 +12,12 @@ namespace congestion_tax_calculator_bussiness
 {
     public class TaxCalculation: ITaxCalculation
     {
-        private Vehicle _Vehicle;
+        private IVehicle _Vehicle;
         private DateTime[] _Date;
        
         
 
-        public TaxCalculation(Vehicle vehicle, DateTime[] dates)
+        public TaxCalculation(IVehicle vehicle, DateTime[] dates)
         {
             _Vehicle = vehicle;
             _Date = dates;
@@ -27,34 +26,42 @@ namespace congestion_tax_calculator_bussiness
         }
         public int GetTax()
         {
-            DateTime intervalStart = _Date[0];
-            int totalFee = 0;
-            int tempFee = 0;
-                   foreach (DateTime date in _Date)
+            try
             {
-                //int nextFee = GetTollFee(date, vehicle);
-                GetTollFee getTollFee = new GetTollFee( _Vehicle, date);
+                Array.Sort(_Date);
 
-                TimeSpan diffInMillies = date - intervalStart;
-                double minutes = diffInMillies.TotalMinutes;
-
-                if (minutes <= SingleChargeMinute.singleChargeMin)
+                DateTime intervalStart = _Date[0];
+                int totalFee = 0;
+                int tempFee = 0;
+                int PrevFee = 0;
+                foreach (DateTime date in _Date)
                 {
+                    //int nextFee = GetTollFee(date, vehicle);
+                    GetTollFee getTollFee = new GetTollFee(_Vehicle, date);
+
+                    TimeSpan diffInMillies = date - intervalStart;
+                    double minutes = diffInMillies.TotalMinutes;
                     int Fee = getTollFee.IsTollFeeFunc();
-                    tempFee = Math.Max(Fee, tempFee);
+
+                    if (minutes <= SingleChargeMinute.singleChargeMin)
+                    {
+                        tempFee = Math.Max(Fee, tempFee);
+                        totalFee -= PrevFee;
+                        PrevFee = 0;
+                    }
+                    else
+                    {
+
+                        intervalStart = date;
+                        PrevFee = Fee;
+                        totalFee += tempFee;
+                        tempFee = 0;
+                    }
                 }
-                else
-                {
+                totalFee += tempFee;
 
-                    intervalStart = date;
-
-                    totalFee += tempFee;
-                    tempFee = 0;
-                }
-            }
-            totalFee += tempFee;
-
-            return Math.Max(totalFee, MaxCharge.MaxChargeFee); 
+                return Math.Min(totalFee, MaxCharge.MaxChargeFee);
+            }catch(Exception ex) { throw; }
         }
 
        

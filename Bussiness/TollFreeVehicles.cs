@@ -8,12 +8,13 @@ namespace congestion.calculator.Bussiness
     {
         public enum TollFreeVehicles
         {
-            Emergency,
-            Diplomat,
-            Foreign,
-            Military,
-            Busses,
-            Motorcycles
+            Emergency=5,
+            Diplomat=6,
+            Foreign=7,
+            Military=8,
+            Busses=9,
+            Motorcycles=3
+
         }
     }
 }

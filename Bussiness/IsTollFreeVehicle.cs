@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using congestion.calculator;
+using static congestion.calculator.Bussiness.TollFreeVehicle;
+using congestion.calculator.DataModel;
 
 namespace congestion_tax_calculator_bussiness
 {
     public class IsTollFreeVehicle : IIsTollFreeVehicle
     {
         
-        private readonly Vehicle _vehicle;
-        public IsTollFreeVehicle( Vehicle vehicle)
+        private readonly IVehicle _vehicle;
+        public IsTollFreeVehicle( IVehicle vehicle)
         {
             
             _vehicle = vehicle;
@@ -19,17 +20,20 @@ namespace congestion_tax_calculator_bussiness
         }
         public bool IsTollFreeVehicleFunc()
         {
-            if (_vehicle == null) return false;
+            try
+            {
+                if (_vehicle == null) return false;
 
-            //String vehicleType = _vehicle.GetVehicleType();
-            //return vehicleType.Equals(TollFreeVehicle.Motorcycle.ToString()) ||
-            //       vehicleType.Equals(TollFreeVehicles.Tractor.ToString()) ||
-            //       vehicleType.Equals(TollFreeVehicles.Emergency.ToString()) ||
-            //       vehicleType.Equals(TollFreeVehicles.Diplomat.ToString()) ||
-            //       vehicleType.Equals(TollFreeVehicles.Foreign.ToString()) ||
-            //       vehicleType.Equals(TollFreeVehicles.Military.ToString()||
-            //        vehicleType.Equals(TollFreeVehicles.busses.ToString());
-            return true;
+                int vehicleType = _vehicle.GetVehicleType();
+                return vehicleType.Equals(TollFreeVehicles.Motorcycles.ToString()) ||
+
+                       vehicleType.Equals(TollFreeVehicles.Emergency.ToString()) ||
+                       vehicleType.Equals(TollFreeVehicles.Diplomat.ToString()) ||
+                       vehicleType.Equals(TollFreeVehicles.Foreign.ToString()) ||
+                       vehicleType.Equals(TollFreeVehicles.Military.ToString()) ||
+                        vehicleType.Equals(TollFreeVehicles.Busses.ToString());
+            }
+            catch (Exception ex) { throw; }
 
         }
 

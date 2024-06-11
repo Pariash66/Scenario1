@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static congestion.calculator.DataModel.VehicleTypes;
 
-namespace congestion.calculator
+namespace congestion.calculator.DataModel
 {
-    public class Car : Vehicle
+    public class Tractor : IVehicle
     {
+
+
         public int GetVehicleType()
         {
-            return 1;
+            return (int)vehicleType.Tractor;
         }
     }
 }

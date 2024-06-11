@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using static congestion_tax_calculator_bussiness.TaxCalculation;
-using congestion.calculator;
 using congestion.calculator.Bussiness;
+using congestion.calculator.DataModel;
 
 namespace congestion_tax_calculator_bussiness
 {
@@ -13,9 +13,9 @@ namespace congestion_tax_calculator_bussiness
     {
         
        
-        private readonly Vehicle _vehicle;
+        private readonly IVehicle _vehicle;
         private readonly DateTime _datetime;
-        public GetTollFee(Vehicle vehicle, DateTime datetime)
+        public GetTollFee(IVehicle vehicle, DateTime datetime)
         {
             
             _vehicle = vehicle;
